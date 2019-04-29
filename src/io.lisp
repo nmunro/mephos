@@ -1,7 +1,7 @@
 (in-package :mephos)
 
-(defun input ()
-  (format t "[~A] -> " name)
+(defun input (&optional (prompt ""))
+  (format t "~A " prompt)
   (let ((cmd (string-downcase (read-line))))
     cmd))
 
