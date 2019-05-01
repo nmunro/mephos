@@ -21,27 +21,32 @@
       (mapcar (lambda (n g) (format nil "~A: ~A" n (game-name g))) game-numbers games))
 
     (let* ((choice (input "->")) (g (nth (- (parse-integer choice) 1) games)))
-      (format t "You picked: ~A~%" (game-name g)))))
+      (format t "You picked: ~A~%" (game-name g))
+      g)))
 
-(defun load-game (game)
+(defun load-game (g)
   (let*
     ((name (input "What is your name?"))
      (p (make-player :race "human" :hp 100 :mp 100 :str 10 :def 10 :lvl 1 :xp 0 :name name)))
     (format t "Welcome: ~A~%" (player-name p))
-    (game-loop p '())))
+    (game-loop p g)))
 
 (defun game-over? (p data)
   "Determines if the game is over or not"
   (not t))
 
-(defun help ()
+(defun help (g)
   "Prints the help section"
-  (format t "~A~%" "This is the help section."))
+  (with-open-file (in (format nil "~A/help.txt" (game-path g)))
+    (when in
+      (loop for line = (read-line in nil)
+        while line do (format t "~a~%" line))
+    (close in))))
 
 (defun game-loop (p data)
   (let ((cmd (input "-> ")))
     (cond
       ((game-over? p data) "Game Over")
       ((equal cmd ",q") "Game Over, you quit!")
-      ((equal cmd ",h") ((lambda () (help) (game-loop p data))))
+      ((equal cmd ",h") ((lambda () (help data) (game-loop p data))))
       (t (game-loop p data)))))
