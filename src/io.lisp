@@ -4,4 +4,3 @@
   (format t "~A " prompt)
   (let ((cmd (string-downcase (read-line))))
     cmd))
-

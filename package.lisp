@@ -5,6 +5,7 @@
   (:export make-entity)
   (:export player)
   (:export make-player)
+  (:export build-player)
   (:export :attack)
   (:export :defend)
   (:export :list-games)
